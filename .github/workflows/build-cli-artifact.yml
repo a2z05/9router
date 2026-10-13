@@ -42,6 +42,8 @@ jobs:
 
       - name: Build CLI
         working-directory: ./cli
+        env:
+          NEXT_TRACING_ROOT_MODE: workspace
         run: |
           npm ci
           npm run build
