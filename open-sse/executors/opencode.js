@@ -275,7 +275,14 @@ function resolveOpencodeSession(body, credentials, providerSessionId, clientTool
   }
 
   const hinted = incoming || normalizeSession(providerSessionId);
-  if (hinted) return translateSessionId(hinted, clientTool);
+  // FIX: If hinted is already a valid OpenCode session ID, preserve it.
+  // translateSessionId() produces syntactically valid but semantically wrong
+  // IDs (digest-derived time prefix instead of real timestamp) which Zen
+  // rejects with 403 FreeTierError. Only translate when NOT already valid.
+  if (hinted) {
+    if (OPENCODE_SESSION_RE.test(hinted)) return hinted;
+    return translateSessionId(hinted, clientTool);
+  }
 
   if (credentials?.connectionId || bodyHasSessionHints(body)) {
     let viaManager = null;
@@ -289,7 +296,11 @@ function resolveOpencodeSession(body, credentials, providerSessionId, clientTool
     } catch {
       viaManager = null;
     }
-    if (viaManager) return translateSessionId(viaManager, clientTool);
+    // FIX: Same validation for viaManager - preserve valid native OpenCode IDs
+    if (viaManager) {
+      if (OPENCODE_SESSION_RE.test(viaManager)) return viaManager;
+      return translateSessionId(viaManager, clientTool);
+    }
   }
 
   return stableSessionId(credentials);
