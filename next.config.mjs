@@ -31,6 +31,9 @@ const nextConfig = {
   outputFileTracingExcludes: {
     "*": ["./gitbook/**/*"]
   },
+  outputFileTracingIncludes: {
+    "*": ["../open-sse/**/*"]
+  },
   images: {
     unoptimized: true
   },
