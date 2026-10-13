@@ -323,7 +323,7 @@ function buildCliPackage() {
 
   // Step 7c: Copy open-sse (provider-agnostic routing engine) for standalone build
   console.log("7\u2b50 c Copying open-sse engine...");
-  const openSseSrc = path.join(rootDir, "open-sse");
+  const openSseSrc = path.join(appDir, "open-sse");
   const openSseDest = path.join(cliAppDir, "open-sse");
   if (fs.existsSync(openSseSrc)) {
     copyRecursive(openSseSrc, openSseDest);
