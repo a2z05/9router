@@ -38,24 +38,14 @@ jobs:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Install root dependencies
-        run: npm ci
-
-      - name: Build CLI
-        working-directory: ./cli
-        run: |
-          npm ci
-          npm run build
-
-      - name: Pack CLI
-        working-directory: ./cli
-        run: npm pack --pack-destination ..
-
-      - name: Publish to npm
+      - name: Build and publish CLI
         working-directory: ./cli
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --provenance --registry https://registry.npmjs.org
+        run: |
+          npm ci
+          npm run build
+          npm publish --access public --provenance --registry https://registry.npmjs.org
 
       - name: Verify published version
         run: |
