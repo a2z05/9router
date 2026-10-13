@@ -321,6 +321,18 @@ function buildCliPackage() {
     console.log("⏭️  No updater files found\n");
   }
 
+  // Step 7c: Copy open-sse (provider-agnostic routing engine) for standalone build
+  console.log("7\u2b50 c Copying open-sse engine...");
+  const openSseSrc = path.join(rootDir, "open-sse");
+  const openSseDest = path.join(cliAppDir, "open-sse");
+  if (fs.existsSync(openSseSrc)) {
+    copyRecursive(openSseSrc, openSseDest);
+    console.log("\u2705 Copied open-sse engine\n");
+  } else {
+    console.log("\u23ed\ufe0f  No open-sse found\n");
+  }
+
+
   // Step 8: Build MITM server (config driven - see app/cli/scripts/buildMitm.js)
   console.log("8️⃣  Building MITM server...");
   try {
