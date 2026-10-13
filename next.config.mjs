@@ -32,7 +32,7 @@ const nextConfig = {
     "*": ["./gitbook/**/*"]
   },
   outputFileTracingIncludes: {
-    "*": ["../open-sse/**/*"]
+    "*": ["open-sse/**/*"]
   },
   images: {
     unoptimized: true
